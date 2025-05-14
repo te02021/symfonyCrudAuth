@@ -1,0 +1,27 @@
+{{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+
+    <div class="col-md-6">
+        {{ form_label(form.nombre, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nombre) }}
+    </div>
+
+    <div class="col-md-3">
+        {{ form_label(form.precio, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.precio, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.precio) }}
+    </div>
+
+    <div class="col-md-3">
+        {{ form_label(form.stock, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.stock, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.stock) }}
+    </div>
+
+    <div class="col-12 d-flex justify-content-end mt-4">
+        <button style="width: 100px" class="btn btn-success">
+            {{ button_label|default('Guardar') }}
+        </button>
+    </div>
+
+{{ form_end(form) }}

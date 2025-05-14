@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">Listado de Productos</h1>
+
+    <a href="{{ path('app_producto_new') }}" class="btn btn-primary mb-3">Crear nuevo producto</a>
+
+    {% if productos is empty %}
+        <div class="alert alert-info">No hay productos cargados.</div>
+    {% else %}
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center" style="width: 50%">Nombre</th>
+                    <th class="text-center" style="width: 10%">Precio</th>
+                    <th class="text-center" style="width: 10%">Stock</th>
+                    <th class="text-center" style="width: 30%">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                    <tr>
+                        <td class="text-center">{{ producto.nombre }}</td>
+                        <td class="text-center">${{ producto.precio|number_format(2, '.', ',') }}</td>
+                        <td class="text-center">{{ producto.stock }}</td>
+                        <td class="text-center">
+                            <a style="width: 70px" href="{{ path('app_producto_show', {'id': producto.id}) }}" class="btn btn-sm btn-info">Ver</a>
+                            <a style="width: 70px" href="{{ path('app_producto_edit', {'id': producto.id}) }}" class="btn btn-sm btn-warning">Editar</a>
+                            <form method="post" action="{{ path('app_producto_delete', {'id': producto.id}) }}" style="display:inline;" onsubmit="return confirm('¿Estás seguro?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ producto.id) }}">
+                                <button style="width: 70px" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}
