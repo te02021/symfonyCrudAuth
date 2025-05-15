@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationForm extends AbstractType
@@ -23,9 +24,17 @@ class RegistrationForm extends AbstractType
                 'second_options' => ['label' => 'Repetir contraseña'],
                 'invalid_message' => 'Las contraseñas no coinciden.',
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Usuario' => 'ROLE_USER',
+                    'Administrador' => 'ROLE_ADMIN',
+                ],
+                'mapped' => false,
+                'multiple' => false,
+                'expanded' => false,
+                'label' => 'Rol',
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

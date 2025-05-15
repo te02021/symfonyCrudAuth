@@ -25,6 +25,7 @@ final class ProductoController extends AbstractController
     #[Route('/new', name: 'app_producto_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $producto = new Producto();
         $form = $this->createForm(ProductoForm::class, $producto);
         $form->handleRequest($request);
@@ -53,6 +54,7 @@ final class ProductoController extends AbstractController
     #[Route('/{id}/edit', name: 'app_producto_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Producto $producto, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(ProductoForm::class, $producto);
         $form->handleRequest($request);
 
@@ -71,6 +73,7 @@ final class ProductoController extends AbstractController
     #[Route('/{id}', name: 'app_producto_delete', methods: ['POST'])]
     public function delete(Request $request, Producto $producto, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$producto->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($producto);
             $entityManager->flush();

@@ -21,10 +21,11 @@ class RegistrationController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
             $password = $form->get('password')->getData();
             $hashedPassword = $passwordHasher->hashPassword($user, $password);
+            $user->setRoles([$form->get('roles')->getData()]);
             $user->setPassword($hashedPassword);
-            $user->setRoles(['ROLE_USER']);
 
             $em->persist($user);
             $em->flush();

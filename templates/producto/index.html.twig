@@ -2,9 +2,9 @@
 
 {% block body %}
     <h1 class="mb-4">Listado de Productos</h1>
-
-    <a href="{{ path('app_producto_new') }}" class="btn btn-primary mb-3">Crear nuevo producto</a>
-
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_producto_new') }}" class="btn btn-primary mb-3">Crear nuevo producto</a>
+    {% endif %}
     {% if productos is empty %}
         <div class="alert alert-info">No hay productos cargados.</div>
     {% else %}
@@ -25,11 +25,13 @@
                         <td class="text-center">{{ producto.stock }}</td>
                         <td class="text-center">
                             <a style="width: 70px" href="{{ path('app_producto_show', {'id': producto.id}) }}" class="btn btn-sm btn-info">Ver</a>
-                            <a style="width: 70px" href="{{ path('app_producto_edit', {'id': producto.id}) }}" class="btn btn-sm btn-warning">Editar</a>
-                            <form method="post" action="{{ path('app_producto_delete', {'id': producto.id}) }}" style="display:inline;" onsubmit="return confirm('¿Estás seguro?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ producto.id) }}">
-                                <button style="width: 70px" class="btn btn-sm btn-danger">Eliminar</button>
-                            </form>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a style="width: 70px" href="{{ path('app_producto_edit', {'id': producto.id}) }}" class="btn btn-sm btn-warning">Editar</a>
+                                <form method="post" action="{{ path('app_producto_delete', {'id': producto.id}) }}" style="display:inline;" onsubmit="return confirm('¿Estás seguro?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ producto.id) }}">
+                                    <button style="width: 70px" class="btn btn-sm btn-danger">Eliminar</button>
+                                </form>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
