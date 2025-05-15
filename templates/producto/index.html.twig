@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container mt-4">
     <h1 class="mb-4">Listado de Productos</h1>
 
     <a href="{{ path('app_producto_new') }}" class="btn btn-primary mb-3">Crear nuevo producto</a>
@@ -37,5 +36,4 @@
             </tbody>
         </table>
     {% endif %}
-</div>
 {% endblock %}

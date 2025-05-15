@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,10 +17,14 @@ class RegistrationForm extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('password', PasswordType::class, [
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options'  => ['label' => 'Contraseña'],
+                'second_options' => ['label' => 'Repetir contraseña'],
+                'invalid_message' => 'Las contraseñas no coinciden.',
                 'mapped' => false,
-                'label' => 'Contraseña'
-            ])
+                'attr' => ['autocomplete' => 'new-password'],
+            ]);
         ;
     }
 

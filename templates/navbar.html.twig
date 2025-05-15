@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ path('app_home') }}">MiApp</a>
+
+    <div class="collapse navbar-collapse">
+      {% if app.user %}
+        <div class="d-flex align-items-center ms-auto">
+          <span class="me-3 text-muted">Bienvenido, {{ app.user.userIdentifier }}</span>
+          <a href="{{ path('app_logout') }}" class="btn btn-outline-secondary btn-sm">Cerrar sesión</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</nav>
