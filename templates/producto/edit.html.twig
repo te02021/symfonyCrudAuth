@@ -6,7 +6,6 @@
 
     <h1 class="mb-4">Editar Producto</h1>
     {% if is_granted('ROLE_ADMIN') %}
-
         {{ include('producto/_form.html.twig', {'form': form, 'button_label': 'Actualizar'}) }}
     {% endif %}
 

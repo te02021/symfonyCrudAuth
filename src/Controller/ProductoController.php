@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 #[Route('/producto')]
 final class ProductoController extends AbstractController
@@ -60,7 +62,7 @@ final class ProductoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            
             return $this->redirectToRoute('app_producto_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -71,10 +73,13 @@ final class ProductoController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_producto_delete', methods: ['POST'])]
-    public function delete(Request $request, Producto $producto, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Producto $producto, EntityManagerInterface $entityManager, CsrfTokenManagerInterface $csrfTokenManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        if ($this->isCsrfTokenValid('delete'.$producto->getId(), $request->getPayload()->getString('_token'))) {
+        $tokenRecibido = $request->getPayload()->getString('_token');
+
+        //Comparar token recibido con el token que symfony contiene mediante la obtencion del id
+        if ($this->isCsrfTokenValid('delete'.$producto->getId(), $tokenRecibido)) {
             $entityManager->remove($producto);
             $entityManager->flush();
         }
